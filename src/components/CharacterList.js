@@ -26,22 +26,30 @@ const StyledCardsContainer = styled.div`
 const CharacterList = () => {
   const [characters, setCharacters] = useState([]);
   const [query, setQuery] = useState('');
+  const [filteredCharacter, setFilteredCharacter] = useState([]);
 
 	useEffect(() => {
     axios
       .get(`https://rickandmortyapi.com/api/character/`)
 			.then(response => {
         console.log(response);
-        const data = response.data.results.filter(character =>
-          character.name.toLowerCase().includes(query.toLowerCase())
-        );
+        const data = response.data.results
         setCharacters(data);
+        setFilteredCharacter(data);
 			})
 			.catch(error => {
 				console.log(error);
 			});
 
-	}, [query]);
+  }, []);
+  
+  useEffect(() => {
+    setFilteredCharacter(
+      characters.filter(character =>
+        character.name.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  }, [query, characters]);
 
   const handleInputChange = event => {
     setQuery(event.target.value);
@@ -62,8 +70,8 @@ const CharacterList = () => {
         />
       </StyledForm>
       <StyledCardsContainer className="list">
-        {characters.map(character => {
-          return <CharacterCard character={character} />
+        {filteredCharacter.map(character => {
+          return <CharacterCard key={character.name} character={character} />
         })}
       </StyledCardsContainer>
     </div>

@@ -1,7 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import CharacterCard from './CharacterCard';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+  display: flex;
+  justify-content: center;
+  margin: 25px;
+`;
+
+const StyledInput = styled.input`
+  border: 1px solid black;
+  width: 300px;
+  line-height: 30px;
+  font-size: 20px;
+  padding: 5px;
+`;
+
+const StyledCardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
 
 const CharacterList = () => {
   const [characters, setCharacters] = useState([]);
@@ -29,8 +49,8 @@ const CharacterList = () => {
 
 	return (
     <div>
-      <form className="search">
-        <input
+      <StyledForm className="search">
+        <StyledInput
           type="text"
           onChange={handleInputChange}
           value={query}
@@ -40,12 +60,12 @@ const CharacterList = () => {
           placeholder="search by name"
           autoComplete="off"
         />
-      </form>
-      <div className="list">
+      </StyledForm>
+      <StyledCardsContainer className="list">
         {characters.map(character => {
           return <CharacterCard character={character} />
         })}
-      </div>
+      </StyledCardsContainer>
     </div>
 	)
 }

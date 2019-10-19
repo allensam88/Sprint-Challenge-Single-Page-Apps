@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
 import CharacterCard from './CharacterCard';
 
@@ -24,15 +24,10 @@ const StyledCardsContainer = styled.div`
 
 const SearchForm = (props) => {
   const [query, setQuery] = useState('');
-  const [filteredCharacter, setFilteredCharacter] = useState([props.characters]);
-
-  useEffect(() => {
-    setFilteredCharacter(
-      props.characters.filter(character =>
+  
+  const filteredCharacter = props.characters.filter(character =>
         character.name.toLowerCase().includes(query.toLowerCase())
-      )
-    );
-  }, [query, props.characters]);
+      );
 
   const handleInputChange = event => {
     setQuery(event.target.value);
